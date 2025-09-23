@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rome Pedestrian Accidents — Analysis & Maps</title>
+  <meta name="description" content="Analysis of pedestrian accidents in Rome using open data from Comune di Roma. Interactive hotspot and all-accidents maps." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0e13; --panel:#10151c; --muted:#8a97a8; --text:#e8eef6; --accent:#3ea6ff; --accent2:#ffcc66;
+      --card:#121923; --card2:#0f141b; --border:#1f2a38; --ok:#21c17a; --warn:#f7b84b;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--text); background:linear-gradient(180deg,#0a0e14 0%, #0b121a 100%);
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:1100px; margin:0 auto; padding:0 20px}
+    /* Header / hero */
+    .hero{
+      position:relative; min-height:48vh; display:flex; align-items:center; justify-content:center;
+      background:#000 url('https://images.unsplash.com/photo-1533750349088-cd871a92f312?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+      isolation:isolate;
+    }
+    .hero::after{
+      content:""; position:absolute; inset:0; background:
+        linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(10,14,20,.85) 60%, rgba(10,14,20,.95) 100%);
+      z-index:0;
+    }
+    .hero-inner{position:relative; z-index:1; text-align:center; padding:60px 0}
+    .title{font-size:clamp(28px,4vw,44px); font-weight:800; letter-spacing:.2px; margin:0 0 10px}
+    .subtitle{font-size:clamp(15px,2vw,18px); color:#cdd7e3; margin:0 auto; max-width:850px}
+
+    /* Info section */
+    .panel{
+      margin-top:-40px; position:relative; z-index:2;
+      background:linear-gradient(180deg, rgba(16,21,28,.9), rgba(16,21,28,.95));
+      border:1px solid var(--border); border-radius:16px; padding:24px;
+      box-shadow:0 8px 30px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.02) inset;
+      backdrop-filter: blur(6px);
+    }
+    .grid{display:grid; gap:18px}
+    @media (min-width:800px){ .grid{grid-template-columns:1.2fr .8fr} }
+
+    .card{
+      background:linear-gradient(180deg,var(--card) 0%, var(--card2) 100%);
+      border:1px solid var(--border); border-radius:14px; padding:18px;
+    }
+    .card h3{margin:0 0 10px; font-size:18px}
+    .muted{color:var(--muted)}
+    .badge{display:inline-block; padding:4px 8px; border-radius:999px; font-size:12px; font-weight:600; border:1px solid var(--border); background:#0c1219}
+    .badges{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
+
+    /* Map links */
+    .maps{margin-top:18px; display:grid; gap:16px}
+    @media (min-width:800px){ .maps{grid-template-columns:1fr 1fr} }
+    .mapcard{
+      display:flex; flex-direction:column; overflow:hidden; border-radius:14px;
+      border:1px solid var(--border); background:linear-gradient(180deg,#0e141c,#0b1016);
+      transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    }
+    .mapcard:hover{transform:translateY(-2px); border-color:#2b3a4d; box-shadow:0 8px 24px rgba(0,0,0,.35)}
+    .thumb{
+      aspect-ratio: 16/9; background:#000 url('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+      border-bottom:1px solid var(--border);
+    }
+    .thumb--hotspots{background-image:url('https://images.unsplash.com/photo-1539651044677-1fdfb74547d1?q=80&w=1600&auto=format&fit=crop')}
+    .thumb--all{background-image:url('https://images.unsplash.com/photo-1543342386-1a9fba1c3f74?q=80&w=1600&auto=format&fit=crop')}
+    .mapbody{padding:16px}
+    .maptitle{margin:0 0 6px; font-size:18px; font-weight:700}
+    .mapdesc{margin:0; color:#c4cfdb; font-size:14px; line-height:1.45}
+    .cta{
+      margin-top:12px; display:inline-flex; align-items:center; gap:8px;
+      padding:10px 12px; border-radius:10px; font-weight:700; font-size:14px;
+      background:linear-gradient(90deg,var(--accent), #6fd0ff); color:#062034; border:none;
+      box-shadow:0 4px 14px rgba(62,166,255,.35);
+    }
+    .cta:hover{text-decoration:none; filter:brightness(1.03)}
+    .footer{
+      color:#aab6c5; font-size:13px; text-align:center; padding:28px 16px 40px;
+    }
+    .divider{height:1px; background:linear-gradient(90deg,transparent,#1e2a39,transparent); margin:22px 0}
+    .list{margin:6px 0 0 18px}
+  </style>
+</head>
+<body>
+  <!-- HERO -->
+  <header class="hero" role="banner" aria-label="Header with Rome background">
+    <div class="hero-inner container">
+      <h1 class="title">Pedestrian Accidents in Rome</h1>
+      <p class="subtitle">
+        An exploration of accident hotspots and patterns across the city, combining spatial clustering with contextual features.
+      </p>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container" role="main">
+    <section class="panel">
+      <div class="grid">
+        <!-- Left: Study summary -->
+        <div class="card">
+          <h3>Study Summary</h3>
+          <p class="muted">
+            <strong>Analysis of pedestrian accidents in Rome.</strong><br><br>
+            Data from <em>Opendata Comune di Roma</em>, filtered to accidents involving one vehicle.
+            Accidents took place during the period <strong>01/01/2013 – 31/08/2022</strong>.
+            Accidents with missing information have been removed.
+          </p>
+
+          <div class="divider"></div>
+
+          <h3>Injury Levels</h3>
+          <ul class="list">
+            <li><strong>0</strong> — uninjured (but involved in the accident)</li>
+            <li><strong>1</strong> — slight injury</li>
+            <li><strong>2</strong> — moderate injury (hospitalised)</li>
+            <li><strong>3</strong> — moderate/severe injury, died later</li>
+            <li><strong>4</strong> — died instantly</li>
+          </ul>
+
+          <div class="badges">
+            <span class="badge">2013–2022</span>
+            <span class="badge">Comune di Roma Open Data</span>
+            <span class="badge">One-vehicle accidents</span>
+          </div>
+        </div>
+
+        <!-- Right: Rome imagery / context -->
+        <div class="card" style="padding:0; overflow:hidden">
+          <div style="aspect-ratio: 16/10; background:#000 url('https://images.unsplash.com/photo-1514890547357-a9ee0b39a83b?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat"></div>
+          <div style="padding:16px">
+            <h3>Context</h3>
+            <p class="muted">
+              Spatial clustering (DBSCAN) highlights “blackspots,” while additional analyses summarise time of day, weather, and road conditions.
+              Use the interactive maps below to explore the hotspots or browse every recorded accident in the study period.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Map links -->
+      <div class="maps">
+        <!-- Priority Hotspots -->
+        <a class="mapcard" href="rome_priority_hotspots.html">
+          <div class="thumb thumb--hotspots" role="img" aria-label="Heatmap of Rome streets with highlighted clusters"></div>
+          <div class="mapbody">
+            <h3 class="maptitle">Priority Hotspots (Interactive)</h3>
+            <p class="mapdesc">
+              Blackspot clusters identified across Rome. Click each location to inspect severity mix and local context.
+            </p>
+            <span class="cta">Open Map →</span>
+          </div>
+        </a>
+
+        <!-- All Accidents -->
+        <a class="mapcard" href="rome_pedestrian_accidents.html">
+          <div class="thumb thumb--all" role="img" aria-label="Map of Rome with plotted accident points"></div>
+          <div class="mapbody">
+            <h3 class="maptitle">All Pedestrian Accidents (Interactive)</h3>
+            <p class="mapdesc">
+              Every included accident from 2013–2022. Filter and zoom to understand spatial distribution beyond hotspots.
+            </p>
+            <span class="cta" style="background:linear-gradient(90deg,var(--accent2),#ffe08a); color:#3a2a00;">Open Map →</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <p class="footer">
+      Images via Unsplash. This is a static page—no cookies, no tracking.
+    </p>
+  </main>
+</body>
+</html>
