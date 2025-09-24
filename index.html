@@ -25,8 +25,8 @@
     /* Header / hero */
     .hero{
       position:relative; min-height:48vh; display:flex; align-items:center; justify-content:center;
-      background:#000 url('https://images.unsplash.com/photo-1533750349088-cd871a92f312?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
-      isolation:isolate;
+  background:#000 url('https://source.unsplash.com/2s0KR5KMQ04/1600x900') center/cover no-repeat;
+  isolation:isolate;
     }
     .hero::after{
       content:""; position:absolute; inset:0; background:
@@ -138,9 +138,14 @@
           <div style="padding:16px">
             <h3>Context</h3>
             <p class="muted">
-              Spatial clustering (DBSCAN) highlights “blackspots,” while additional analyses summarise time of day, weather, and road conditions.
-              Use the interactive maps below to explore the hotspots or browse every recorded accident in the study period.
+              Use the interactive maps below to explore the pedestrian accident hotspots in Rome or browse every recorded one vehicle – pedestrian accident in the study period.
             </p>
+            <p class="muted">
+              Spatial clustering (DBSCAN) was used to combine accident frequencies and pedestrian injury severities to pinpoint pedestrian “blackspots”.
+            </p>
+            <p class="muted">
+              Accident data taken from Open Data Comune di Roma: <em>Incidenti stradali nel territorio di Roma Capitale</em>.
+            </p>         
           </div>
         </div>
       </div>
@@ -174,8 +179,10 @@
     </section>
 
     <p class="footer">
-      Images via Unsplash. This is a static page—no cookies, no tracking.
+      Hero image: Photo by <a href="https://unsplash.com/@dbruggink" target="_blank" rel="noopener">David Bruggink</a> on Unsplash — Free to use under the Unsplash License.<br>
+  This is a static page—no cookies, no tracking.
     </p>
   </main>
 </body>
 </html>
+
