@@ -25,8 +25,8 @@
     /* Header / hero */
     .hero{
       position:relative; min-height:48vh; display:flex; align-items:center; justify-content:center;
-  background:#000 url('https://source.unsplash.com/2s0KR5KMQ04/1600x900') center/cover no-repeat;
-  isolation:isolate;
+      background:#000 url('https://source.unsplash.com/2s0KR5KMQ04/1600x900') center/cover no-repeat;
+      isolation:isolate;
     }
     .hero::after{
       content:""; position:absolute; inset:0; background:
@@ -67,7 +67,7 @@
     }
     .mapcard:hover{transform:translateY(-2px); border-color:#2b3a4d; box-shadow:0 8px 24px rgba(0,0,0,.35)}
     .thumb{
-      aspect-ratio: 16/9; background:#000 url('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+      aspect-ratio: 16/9; background:#000 center/cover no-repeat;
       border-bottom:1px solid var(--border);
     }
     .thumb--hotspots{background-image:url('https://images.unsplash.com/photo-1539651044677-1fdfb74547d1?q=80&w=1600&auto=format&fit=crop')}
@@ -134,7 +134,7 @@
 
         <!-- Right: Rome imagery / context -->
         <div class="card" style="padding:0; overflow:hidden">
-          <div style="aspect-ratio: 16/10; background:#000 url('https://images.unsplash.com/photo-1514890547357-a9ee0b39a83b?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat"></div>
+          <div style="aspect-ratio: 16/10; background:#000 url('https://source.unsplash.com/2s0KR5KMQ04/1600x900') center/cover no-repeat"></div>
           <div style="padding:16px">
             <h3>Context</h3>
             <p class="muted">
@@ -145,7 +145,7 @@
             </p>
             <p class="muted">
               Accident data taken from Open Data Comune di Roma: <em>Incidenti stradali nel territorio di Roma Capitale</em>.
-            </p>         
+            </p>
           </div>
         </div>
       </div>
@@ -180,9 +180,8 @@
 
     <p class="footer">
       Hero image: Photo by <a href="https://unsplash.com/@dbruggink" target="_blank" rel="noopener">David Bruggink</a> on Unsplash — Free to use under the Unsplash License.<br>
-  This is a static page—no cookies, no tracking.
+      Thumbnail images via Unsplash. This is a static page—no cookies, no tracking.
     </p>
   </main>
 </body>
 </html>
-
