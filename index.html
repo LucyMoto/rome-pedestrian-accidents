@@ -22,32 +22,30 @@
     a{color:var(--accent); text-decoration:none}
     a:hover{text-decoration:underline}
     .container{max-width:1100px; margin:0 auto; padding:0 20px}
-    /* Header / hero */
+
+    /* Header / hero uses LOCAL image */
     .hero{
-      position:relative; min-height:48vh; display:flex; align-items:center; justify-content:center;
-  background:#000 url('assets/hero.jpg') center/cover no-repeat;  /* <-- local file */
-  isolation:isolate;
+      position:relative; min-height:32vh; display:flex; align-items:center; justify-content:center;
+      background:#000 url('assets/hero.jpg') center/cover no-repeat;
+      isolation:isolate;
     }
     .hero::after{
       content:""; position:absolute; inset:0; background:
-    linear-gradient(180deg, rgba(0,0,0,.25) 0%, rgba(10,14,20,.55) 60%, rgba(10,14,20,.75) 100%); /* lighter */
-  z-index:0;
+        linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(10,14,20,.6) 60%, rgba(10,14,20,.8) 100%);
+      z-index:0;
     }
-    .hero-inner{position:relative; z-index:1; text-align:center; padding:60px 0}
+    .hero-inner{position:relative; z-index:1; text-align:center; padding:40px 0}
     .title{font-size:clamp(28px,4vw,44px); font-weight:800; letter-spacing:.2px; margin:0 0 10px}
     .subtitle{font-size:clamp(15px,2vw,18px); color:#cdd7e3; margin:0 auto; max-width:850px}
 
-    /* Info section */
+    /* Panels & cards */
     .panel{
-      margin-top:-40px; position:relative; z-index:2;
+      margin-top:-30px; position:relative; z-index:2;
       background:linear-gradient(180deg, rgba(16,21,28,.9), rgba(16,21,28,.95));
       border:1px solid var(--border); border-radius:16px; padding:24px;
       box-shadow:0 8px 30px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.02) inset;
       backdrop-filter: blur(6px);
     }
-    .grid{display:grid; gap:18px}
-    @media (min-width:800px){ .grid{grid-template-columns:1.2fr .8fr} }
-
     .card{
       background:linear-gradient(180deg,var(--card) 0%, var(--card2) 100%);
       border:1px solid var(--border); border-radius:14px; padding:18px;
@@ -56,37 +54,32 @@
     .muted{color:var(--muted)}
     .badge{display:inline-block; padding:4px 8px; border-radius:999px; font-size:12px; font-weight:600; border:1px solid var(--border); background:#0c1219}
     .badges{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
+    .divider{height:1px; background:linear-gradient(90deg,transparent,#1e2a39,transparent); margin:22px 0}
+    .list{margin:6px 0 0 18px}
 
-    /* Map links */
-    .maps{margin-top:18px; display:grid; gap:16px}
-    @media (min-width:800px){ .maps{grid-template-columns:1fr 1fr} }
+    /* Map links (no images) */
+    .maps{display:grid; gap:16px}
+    @media (min-width:720px){ .maps{grid-template-columns:1fr 1fr} }
     .mapcard{
-      display:flex; flex-direction:column; overflow:hidden; border-radius:14px;
-      border:1px solid var(--border); background:linear-gradient(180deg,#0e141c,#0b1016);
-      transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+      display:flex; flex-direction:column; justify-content:center; min-height:110px;
+      border-radius:14px; border:1px solid var(--border);
+      background:linear-gradient(180deg,#0e141c,#0b1016);
+      padding:18px; transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+      text-decoration:none;
     }
     .mapcard:hover{transform:translateY(-2px); border-color:#2b3a4d; box-shadow:0 8px 24px rgba(0,0,0,.35)}
-    .thumb{
-      aspect-ratio: 16/9; background:#000 center/cover no-repeat;
-      border-bottom:1px solid var(--border);
-    }
-    .thumb--hotspots{background-image:url('https://images.unsplash.com/photo-1539651044677-1fdfb74547d1?q=80&w=1600&auto=format&fit=crop')}
-    .thumb--all{background-image:url('https://images.unsplash.com/photo-1543342386-1a9fba1c3f74?q=80&w=1600&auto=format&fit=crop')}
-    .mapbody{padding:16px}
-    .maptitle{margin:0 0 6px; font-size:18px; font-weight:700}
+    .maptitle{margin:0 0 6px; font-size:18px; font-weight:700; color:var(--text)}
     .mapdesc{margin:0; color:#c4cfdb; font-size:14px; line-height:1.45}
     .cta{
-      margin-top:12px; display:inline-flex; align-items:center; gap:8px;
-      padding:10px 12px; border-radius:10px; font-weight:700; font-size:14px;
-      background:linear-gradient(90deg,var(--accent), #6fd0ff); color:#062034; border:none;
-      box-shadow:0 4px 14px rgba(62,166,255,.35);
+      margin-top:12px; display:inline-inline; padding:8px 10px; border-radius:10px;
+      font-weight:700; font-size:14px; background:linear-gradient(90deg,var(--accent), #6fd0ff);
+      color:#062034; border:none; box-shadow:0 4px 14px rgba(62,166,255,.35);
     }
-    .cta:hover{text-decoration:none; filter:brightness(1.03)}
+    .cta--alt{background:linear-gradient(90deg,var(--accent2),#ffe08a); color:#3a2a00; box-shadow:0 4px 14px rgba(255,204,102,.25)}
     .footer{
       color:#aab6c5; font-size:13px; text-align:center; padding:28px 16px 40px;
     }
-    .divider{height:1px; background:linear-gradient(90deg,transparent,#1e2a39,transparent); margin:22px 0}
-    .list{margin:6px 0 0 18px}
+    .section-title{font-size:20px; font-weight:800; margin:0 0 14px}
   </style>
 </head>
 <body>
@@ -94,95 +87,68 @@
   <header class="hero" role="banner" aria-label="Header with Rome background">
     <div class="hero-inner container">
       <h1 class="title">Pedestrian Accidents in Rome</h1>
-      <p class="subtitle">
-        An exploration of accident hotspots and patterns across the city, combining spatial clustering with contextual features.
-      </p>
+      <p class="subtitle">Explore interactive maps of pedestrian accidents & pedestrian accident hotspots in Italy's Capital</p>
     </div>
   </header>
 
   <!-- MAIN -->
   <main class="container" role="main">
-    <section class="panel">
-      <div class="grid">
-        <!-- Left: Study summary -->
-        <div class="card">
-          <h3>Study Summary</h3>
-          <p class="muted">
-            <strong>Analysis of pedestrian accidents in Rome.</strong><br><br>
-            Data from <em>Opendata Comune di Roma</em>, filtered to accidents involving one vehicle.
-            Accidents took place during the period <strong>01/01/2013 – 31/08/2022</strong>.
-            Accidents with missing information have been removed.
-          </p>
-
-          <div class="divider"></div>
-
-          <h3>Injury Levels</h3>
-          <ul class="list">
-            <li><strong>0</strong> — uninjured (but involved in the accident)</li>
-            <li><strong>1</strong> — slight injury</li>
-            <li><strong>2</strong> — moderate injury (hospitalised)</li>
-            <li><strong>3</strong> — moderate/severe injury, died later</li>
-            <li><strong>4</strong> — died instantly</li>
-          </ul>
-
-          <div class="badges">
-            <span class="badge">2013–2022</span>
-            <span class="badge">Comune di Roma Open Data</span>
-            <span class="badge">One-vehicle accidents</span>
-          </div>
-        </div>
-
-        <!-- Right: Rome imagery / context -->
-        <div class="card" style="padding:0; overflow:hidden">
-          <div style="aspect-ratio: 16/10; background:#000 url('https://source.unsplash.com/2s0KR5KMQ04/1600x900') center/cover no-repeat"></div>
-          <div style="padding:16px">
-            <h3>Context</h3>
-            <p class="muted">
-              Use the interactive maps below to explore the pedestrian accident hotspots in Rome or browse every recorded one vehicle – pedestrian accident in the study period.
-            </p>
-            <p class="muted">
-              Spatial clustering (DBSCAN) was used to combine accident frequencies and pedestrian injury severities to pinpoint pedestrian “blackspots”.
-            </p>
-            <p class="muted">
-              Accident data taken from Open Data Comune di Roma: <em>Incidenti stradali nel territorio di Roma Capitale</em>.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Map links -->
+    <!-- MAP LINKS AT TOP (NO IMAGES) -->
+    <section class="panel" aria-label="Interactive maps">
+      <h2 class="section-title">Interactive Maps</h2>
       <div class="maps">
-        <!-- Priority Hotspots -->
-        <a class="mapcard" href="rome_priority_hotspots.html">
-          <div class="thumb thumb--hotspots" role="img" aria-label="Heatmap of Rome streets with highlighted clusters"></div>
-          <div class="mapbody">
-            <h3 class="maptitle">Priority Hotspots (Interactive)</h3>
-            <p class="mapdesc">
-              Blackspot clusters identified across Rome. Click each location to inspect severity mix and local context.
-            </p>
-            <span class="cta">Open Map →</span>
-          </div>
-        </a>
-
-        <!-- All Accidents -->
+        <!-- LEFT: All Pedestrian Accidents -->
         <a class="mapcard" href="rome_pedestrian_accidents.html">
-          <div class="thumb thumb--all" role="img" aria-label="Map of Rome with plotted accident points"></div>
-          <div class="mapbody">
-            <h3 class="maptitle">All Pedestrian Accidents (Interactive)</h3>
-            <p class="mapdesc">
-              Every included accident from 2013–2022. Filter and zoom to understand spatial distribution beyond hotspots.
-            </p>
-            <span class="cta" style="background:linear-gradient(90deg,var(--accent2),#ffe08a); color:#3a2a00;">Open Map →</span>
-          </div>
+          <h3 class="maptitle">All Pedestrian Accidents (Interactive)</h3>
+          <p class="mapdesc">Every included accident from 2013–2022. <br>Filter and zoom to explore the full spatial distribution.</p>
+          <span class="cta cta--alt">Open Map →</span>
         </a>
+        <!-- RIGHT: Priority Hotspots -->
+        <a class="mapcard" href="rome_priority_hotspots.html">
+          <h3 class="maptitle">Priority Hotspots (Interactive)</h3>
+          <p class="mapdesc">Blackspot clusters identified across Rome. <br>Click a location to inspect severity mix and local context.</p>
+          <span class="cta">Open Map →</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- STUDY SUMMARY + CONTEXT COMBINED AT BOTTOM -->
+    <section class="panel" aria-label="Study summary and context" style="margin-top:16px;">
+      <div class="card">
+        <h3>Study Summary &amp; Context</h3>
+        <p class="muted">
+          <strong>Data from <em>Open Data - Comune di Roma: Incidenti stradali nel territorio di Roma Capitale 2013-2022</em>, filtered to pedestrian accidents involving one moving vehicle.
+          </strong><br><br>
+          Accidents took place during the period 01/01/2013 – 31/08/2022.
+          Accidents with missing information have been removed.<br><br>
+	Priority Hotspots Map: Spatial clustering (DBSCAN) highlights “blackspots” by combining accident frequencies and pedestrian injury severities.
+        </p>
+
+        <div class="divider"></div>
+
+        <h3>Injury Levels</h3>
+        <ul class="list">
+          <li><strong>0</strong> - Uninjured (but involved in the accident)</li>
+          <li><strong>1</strong>  - Slight injury</li>
+          <li><strong>2</strong> - Moderate injury (hospitalised)</li>
+          <li><strong>3</strong> - Moderate/severe injury, died later</li>
+          <li><strong>4</strong> - Died instantly</li>
+        </ul>
+
+        <div class="divider"></div>
+
+        <div class="badges">
+          <span class="badge">2013–2022</span>
+          <span class="badge">Comune di Roma Open Data</span>
+          <span class="badge">One-vehicle accidents</span>
+        </div>
       </div>
     </section>
 
     <p class="footer">
       Hero image: Photo by <a href="https://unsplash.com/@dbruggink" target="_blank" rel="noopener">David Bruggink</a> on Unsplash — Free to use under the Unsplash License.<br>
-      Thumbnail images via Unsplash. This is a static page—no cookies, no tracking.
+      This is a static page—no cookies, no tracking.
     </p>
   </main>
 </body>
 </html>
-
