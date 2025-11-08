@@ -9,5 +9,4 @@ Injury levels:
 0 - uninjured (but involved in the accident)
 1 - slight injury
 2 - moderate injury (hospitalised)
-3 - moderate/severe injury, died later
-4 - died instantly
+3 - fatally injured
