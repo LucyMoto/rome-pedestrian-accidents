@@ -1,93 +1,261 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rome Pedestrian Accidents — Analysis & Maps</title>
-  <meta name="description" content="Analysis of pedestrian accidents in Rome using open data from Comune di Roma. Interactive hotspot and all-accidents maps." />
+  <title>Rome Pedestrian Accidents – Analysis & Maps</title>
+  <meta name="description"
+    content="Analysis of pedestrian accidents in Rome using open data from Comune di Roma. Interactive hotspot and all-accidents maps." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg:#0b0e13; --panel:#10151c; --muted:#8a97a8; --text:#e8eef6; --accent:#3ea6ff; --accent2:#ffcc66;
-      --card:#121923; --card2:#0f141b; --border:#1f2a38; --ok:#21c17a; --warn:#f7b84b;
+    :root {
+      --bg: #0b0e13;
+      --panel: #10151c;
+      --muted: #8a97a8;
+      --text: #e8eef6;
+      --accent: #3ea6ff;
+      --accent2: #ffcc66;
+      --card: #121923;
+      --card2: #0f141b;
+      --border: #1f2a38;
+      --ok: #21c17a;
+      --warn: #f7b84b;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      color:var(--text); background:linear-gradient(180deg,#0a0e14 0%, #0b121a 100%);
+
+    * {
+      box-sizing: border-box
     }
-    a{color:var(--accent); text-decoration:none}
-    a:hover{text-decoration:underline}
-    .container{max-width:1100px; margin:0 auto; padding:0 20px}
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #0a0e14 0%, #0b121a 100%);
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none
+    }
+
+    a:hover {
+      text-decoration: underline
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px
+    }
 
     /* Header / hero uses LOCAL image */
-    .hero{
-      position:relative; min-height:32vh; display:flex; align-items:center; justify-content:center;
-      background:#000 url('https://live.staticflickr.com/7301/12196222156_67e04f6bf6_b.jpg') center/cover no-repeat;
-      isolation:isolate;
+    .hero {
+      position: relative;
+      min-height: 32vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000 url('https://live.staticflickr.com/7301/12196222156_67e04f6bf6_b.jpg') center/cover no-repeat;
+      isolation: isolate;
     }
-    .hero::after{
-      content:""; position:absolute; inset:0; background:
-        linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(10,14,20,.6) 60%, rgba(10,14,20,.8) 100%);
-      z-index:0;
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, .35) 0%, rgba(10, 14, 20, .6) 60%, rgba(10, 14, 20, .8) 100%);
+      z-index: 0;
     }
-    .hero-inner{position:relative; z-index:1; text-align:center; padding:40px 0}
-    .title{font-size:clamp(28px,4vw,44px); font-weight:800; letter-spacing:.2px; margin:0 0 10px}
-    .subtitle{font-size:clamp(15px,2vw,18px); color:#cdd7e3; margin:0 auto; max-width:850px}
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px 0
+    }
+
+    .title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800;
+      letter-spacing: .2px;
+      margin: 0 0 10px
+    }
+
+    .subtitle {
+      font-size: clamp(15px, 2vw, 18px);
+      color: #cdd7e3;
+      margin: 0 auto;
+      max-width: 850px
+    }
 
     /* Panels & cards */
-    .panel{
-      margin-top:-30px; position:relative; z-index:2;
-      background:linear-gradient(180deg, rgba(16,21,28,.9), rgba(16,21,28,.95));
-      border:1px solid var(--border); border-radius:16px; padding:24px;
-      box-shadow:0 8px 30px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.02) inset;
+    .panel {
+      margin-top: -30px;
+      position: relative;
+      z-index: 2;
+      background: linear-gradient(180deg, rgba(16, 21, 28, .9), rgba(16, 21, 28, .95));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .35), 0 0 0 1px rgba(255, 255, 255, .02) inset;
       backdrop-filter: blur(6px);
     }
-    .card{
-      background:linear-gradient(180deg,var(--card) 0%, var(--card2) 100%);
-      border:1px solid var(--border); border-radius:14px; padding:18px;
+
+    .card {
+      background: linear-gradient(180deg, var(--card) 0%, var(--card2) 100%);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
     }
-    .card h3{margin:0 0 10px; font-size:18px}
-    .muted{color:var(--muted)}
-    .badge{display:inline-block; padding:4px 8px; border-radius:999px; font-size:12px; font-weight:600; border:1px solid var(--border); background:#0c1219}
-    .badges{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
-    .divider{height:1px; background:linear-gradient(90deg,transparent,#1e2a39,transparent); margin:22px 0}
-    .list{margin:6px 0 0 18px}
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 18px
+    }
+
+    .muted {
+      color: var(--muted)
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: #0c1219
+    }
+
+    .badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #1e2a39, transparent);
+      margin: 22px 0
+    }
+
+    .list {
+      margin: 6px 0 0 18px
+    }
 
     /* Map links (no images) */
-    .maps{display:grid; gap:16px}
-    @media (min-width:720px){ .maps{grid-template-columns:1fr 1fr} }
-    .mapcard{
-      display:flex; flex-direction:column; justify-content:center; min-height:110px;
-      border-radius:14px; border:1px solid var(--border);
-      background:linear-gradient(180deg,#0e141c,#0b1016);
-      padding:18px; transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
-      text-decoration:none;
+    .maps {
+      display: grid;
+      gap: 16px
     }
-    .mapcard:hover{transform:translateY(-2px); border-color:#2b3a4d; box-shadow:0 8px 24px rgba(0,0,0,.35)}
-    .maptitle{margin:0 0 6px; font-size:18px; font-weight:700; color:var(--text)}
-    .mapdesc{margin:0; color:#c4cfdb; font-size:14px; line-height:1.45}
-    .cta{
-      margin-top:12px; display:inline-inline; padding:8px 10px; border-radius:10px;
-      font-weight:700; font-size:14px; background:linear-gradient(90deg,var(--accent), #6fd0ff);
-      color:#062034; border:none; box-shadow:0 4px 14px rgba(62,166,255,.35);
+
+    @media (min-width:720px) {
+      .maps {
+        grid-template-columns: 1fr 1fr
+      }
     }
-    .cta--alt{background:linear-gradient(90deg,var(--accent2),#ffe08a); color:#3a2a00; box-shadow:0 4px 14px rgba(255,204,102,.25)}
-    .footer{
-      color:#aab6c5; font-size:13px; text-align:center; padding:28px 16px 40px;
+
+    .mapcard {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 110px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #0e141c, #0b1016);
+      padding: 18px;
+      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+      text-decoration: none;
     }
-    .section-title{font-size:20px; font-weight:800; margin:0 0 14px}
+
+    .mapcard:hover {
+      transform: translateY(-2px);
+      border-color: #2b3a4d;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .35)
+    }
+
+    .maptitle {
+      margin: 0 0 6px;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text)
+    }
+
+    .mapdesc {
+      margin: 0;
+      color: #c4cfdb;
+      font-size: 14px;
+      line-height: 1.45
+    }
+
+    .cta {
+      margin-top: 12px;
+      display: inline-inline;
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      background: linear-gradient(90deg, var(--accent), #6fd0ff);
+      color: #062034;
+      border: none;
+      box-shadow: 0 4px 14px rgba(62, 166, 255, .35);
+    }
+
+    .cta--alt {
+      background: linear-gradient(90deg, var(--accent2), #ffe08a);
+      color: #3a2a00;
+      box-shadow: 0 4px 14px rgba(255, 204, 102, .25)
+    }
+
+    .footer {
+      color: #aab6c5;
+      font-size: 13px;
+      text-align: center;
+      padding: 28px 16px 40px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0 0 14px
+    }
+
+    .news-link {
+      display: block;
+      padding: 10px 14px;
+      margin: 6px 0;
+      border-radius: 8px;
+      background: #0e141c;
+      border: 1px solid var(--border);
+      color: var(--accent);
+      transition: all .12s ease;
+    }
+
+    .news-link:hover {
+      background: #121923;
+      border-color: #2b3a4d;
+      text-decoration: none
+    }
   </style>
 </head>
+
 <body>
   <!-- HERO -->
   <header class="hero" role="banner" aria-label="Header with Rome background">
     <div class="hero-inner container">
       <h1 class="title">Pedestrian Accidents in Rome</h1>
-      <p class="subtitle">Explore interactive maps of pedestrian accidents & pedestrian accident hotspots in Italy's Capital</p>
+      <p class="subtitle">Explore interactive maps of pedestrian accidents & pedestrian accident hotspots in Italy's
+        Capital</p>
     </div>
   </header>
 
@@ -99,15 +267,26 @@
       <div class="maps">
         <!-- LEFT: All Pedestrian Accidents -->
         <a class="mapcard" href="rome_pedestrian_accidents.html">
-          <h3 class="maptitle">All Pedestrian Accidents (Interactive)</h3>
-          <p class="mapdesc">Every included accident from 2013–2022. <br>Filter and zoom to explore the full spatial distribution.</p>
+          <h3 class="maptitle">All Pedestrian Accidents (2013–2022)</h3>
+          <p class="mapdesc">Filter by severity, then zoom to explore the distribution of pedestrian accidents around
+            the Province of Rome.</p>
+          <span class="cta">Open Map →</span>
+        </a>
+        <!-- RIGHT: Pedestrian Accident Blackspots -->
+        <a class="mapcard" href="rome_priority_hotspots.html">
+          <h3 class="maptitle">Pedestrian Accident Blackspots</h3>
+          <p class="mapdesc">Clusters of pedestrian accident blackspots and their correspondence with
+            government-identified blackpoint pedonali throughout the Province of Rome. Click a cluster to view details,
+            zoom to explore individual accidents.</p>
           <span class="cta cta--alt">Open Map →</span>
         </a>
-        <!-- RIGHT: Priority Hotspots -->
-        <a class="mapcard" href="rome_priority_hotspots.html">
-          <h3 class="maptitle">Priority Hotspots (Interactive)</h3>
-          <p class="mapdesc">Blackspot clusters identified across Rome. <br>Click a location to inspect severity mix and local context.</p>
-          <span class="cta">Open Map →</span>
+        <!-- NEW: Pedestrian Blackspot Characteristics -->
+        <a class="mapcard" href="https://lucymoto.github.io/rome-pedestrian-accidents/rome_hotspot_characteristics.html"
+          style="grid-column: 1 / -1;">
+          <h3 class="maptitle">Pedestrian Blackspot Characteristics</h3>
+          <p class="mapdesc">Cluster-level risk patterns highlighting the statistically significant patterns found in
+            specific blackspots.</p>
+          <span class="cta cta--alt">Open Map →</span>
         </a>
       </div>
     </section>
@@ -117,29 +296,65 @@
       <div class="card">
         <h3>Study Summary &amp; Context</h3>
         <p class="muted">
-          <strong>Data from <em>Open Data - Comune di Roma: Incidenti stradali nel territorio di Roma Capitale 2013-2022</em>, filtered to pedestrian accidents involving one moving vehicle.
-          </strong><br><br>
-          Accidents took place during the period 01/01/2013 – 31/08/2022.
-          Accidents with missing information have been removed.<br><br>
-	Priority Hotspots Map: Spatial clustering (DBSCAN) highlights “blackspots” by combining accident frequencies and pedestrian injury severities.
+          <strong>Data from <em>Roma Capitale Open Data Lazio: Incidenti stradali nel territorio di Roma Capitale
+              2013–2022</em>, filtered to pedestrian accidents involving one moving vehicle.</strong><br><br>
+          Accidents took place during the period 01/01/2013 – 31/08/2022. Accidents with missing information have been
+          removed. Where accidents involved multiple pedestrians, only the information of the most severely injured
+          pedestrian was used.
+        </p>
+
+        <div class="divider"></div>
+
+        <h3>Priority Hotspots Map</h3>
+        <p class="muted">
+          Spatial clustering using DBSCAN first identifies high-density concentrations of pedestrian accidents (the
+          "blackspots"). Each blackspot is then assigned a risk score, calculated using the formula below, and
+          categorised into four priority levels, based on combined accident frequency and injury severity.
+        </p>
+        <p class="muted" style="margin-top:10px">
+          <strong>Risk score = 0.5 × Accident count + 10 × Average severity + 5 × Maximum severity</strong>
+        </p>
+
+        <div class="divider"></div>
+
+        <h3>Pedestrian Blackspot Characteristics Map</h3>
+        <p class="muted">
+          Baseline rates were derived from all pedestrian accidents on urban roads inside the Grande Raccordo Anulare,
+          providing stable citywide references for: car, van, motorbike/scooter, bicycle, night, twilight, daylight,
+          hit-and-run, wet road, etc. Categorical differences across clusters were assessed using chi-square tests, and
+          binary comparisons used proportion tests. FDR correction (α = 0.05) was applied to control the proportion of
+          false positives while preserving statistical power. Only results that remained significant after FDR
+          correction were retained, giving us statistically significant characteristics for particular clusters.
         </p>
 
         <div class="divider"></div>
 
         <h3>Injury Levels</h3>
         <ul class="list">
-          <li><strong>0</strong> - Uninjured (but involved in the accident)</li>
-          <li><strong>1</strong> - Slight injury</li>
-          <li><strong>2</strong> - Moderate injury (hospitalised)</li>
-          <li><strong>3</strong> - Fatal injury</li>
+          <li><strong>0</strong> – Uninjured (but involved in the accident)</li>
+          <li><strong>1</strong> – Slight injury</li>
+          <li><strong>2</strong> – Moderate injury (hospitalised)</li>
+          <li><strong>3</strong> – Fatal injury</li>
         </ul>
 
         <div class="divider"></div>
 
+        <h3>Related (GOOD) News</h3>
+        <a class="news-link" href="https://www.carteinregola.it/101993/" target="_blank" rel="noopener">
+          📰 Carteinregola.it – Parte la campagna per la sicurezza dei pedoni nei “Black Points” di Roma →
+        </a>
+        <a class="news-link" href="https://www.romatoday.it/politica/attraversamenti-pedonali-rialzati-roma-dove.html"
+          target="_blank" rel="noopener">
+          📰 RomaToday – Roma rallenta, 175 attraversamenti pedonali che si realizzeranno in città →
+        </a>
+
+        <div class="divider"></div>
+
         <div class="badges">
-          <span class="badge">2013–2022</span>
-          <span class="badge">Comune di Roma Open Data</span>
-          <span class="badge">One-vehicle accidents</span>
+          <span class="badge">pedestrian safety</span>
+          <span class="badge">vision-zero</span>
+          <span class="badge">Roma Capitale</span>
+          <span class="badge">black point pedonali</span>
         </div>
       </div>
     </section>
@@ -150,11 +365,5 @@
     </p>
   </main>
 </body>
+
 </html>
-
-
-
-
-
-
-
